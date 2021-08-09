@@ -9,6 +9,14 @@ files.sort()
 folders = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
 folders.sort()
 
+readme_filename = 'README.md'
+
+if os.path.isfile(readme_filename):
+    lines = open(readme_filename, "r").readlines()[:5]
+    printGreen(readme_filename)
+    for line in lines:
+        print(line)
+
 # Output to the console.
 print()
 printGreen("Path: ", path)
@@ -16,15 +24,20 @@ print()
 
 if len(folders) > 0:
     printGreen("Folders:")
+    out = ""
     for f in folders:
-        print(f)
-    else:
-        print("No folders.")
+        out += f.ljust(20)
+    print(out)
+else:
+    print("No folders.")
+
 if len(files) > 0:
     print("")
     printGreen("Files:")
+    out = ""
     for f in files:
-        print(f)
+        out += f.ljust(20)
+    print(out)
 else:
     print("No files.")
 print("")
