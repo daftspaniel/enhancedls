@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os.path
 
 def printGreen(text, postfix=''): print("\033[92m {}\033[00m".format(text) + postfix)
@@ -13,18 +14,19 @@ readme_filename = 'README.md'
 
 if os.path.isfile(readme_filename):
     lines = open(readme_filename, "r").readlines()[:5]
+    print("")
     printGreen(readme_filename)
     for line in lines:
-        print(line)
+        if len(line.strip()) > 0: print(" " + line.rstrip())
 
 # Output to the console.
-print()
+print("")
 printGreen("Path: ", path)
-print()
+print("")
 
 if len(folders) > 0:
     printGreen("Folders:")
-    out = ""
+    out = " "
     for f in folders:
         out += f.ljust(20)
     print(out)
@@ -34,7 +36,7 @@ else:
 if len(files) > 0:
     print("")
     printGreen("Files:")
-    out = ""
+    out = " "
     for f in files:
         out += f.ljust(20)
     print(out)
