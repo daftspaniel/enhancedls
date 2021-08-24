@@ -24,11 +24,20 @@ print("")
 printGreen("Path: ", path)
 print("")
 
+max_folder_name_length = 0
+for f in folders:
+    if len(f) > max_folder_name_length:
+        max_folder_name_length = len(f) + 3
+max_file_name_length = 0
+for f in files:
+    if len(f) > max_file_name_length:
+        max_file_name_length = len(f) + 3
+
 if len(folders) > 0:
     printGreen("Folders:")
     out = " "
     for f in folders:
-        out += f.ljust(20)
+        out += f.ljust(max_folder_name_length)
     print(out)
 else:
     print("No folders.")
@@ -38,7 +47,7 @@ if len(files) > 0:
     printGreen("Files:")
     out = " "
     for f in files:
-        out += f.ljust(20)
+        out += f.ljust(max_file_name_length)
     print(out)
 else:
     print("No files.")
