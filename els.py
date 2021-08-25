@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 import os.path
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-a", "--allfiles", action="store_true", help="Show hidden files and folders.")
+args = parser.parse_args()
 
 def printGreen(text, postfix=''): print("\033[92m {}\033[00m".format(text) + postfix)
 
@@ -9,6 +14,10 @@ files = [d for d in os.listdir(path) if os.path.isfile(os.path.join(path, d))]
 files.sort()
 folders = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
 folders.sort()
+
+if not args.allfiles:
+    files = [ f for f in files if "." != f[0]]
+    folders = [ f for f in folders if "." != f[0]]
 
 readme_filename = 'README.md'
 
@@ -40,7 +49,7 @@ if len(folders) > 0:
         out += f.ljust(max_folder_name_length)
     print(out)
 else:
-    print("No folders.")
+    print(" No folders.")
 
 if len(files) > 0:
     print("")
@@ -50,5 +59,6 @@ if len(files) > 0:
         out += f.ljust(max_file_name_length)
     print(out)
 else:
-    print("No files.")
+    print("")
+    print(" No files.")
 print("")
