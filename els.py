@@ -9,6 +9,27 @@ args = parser.parse_args()
 def printGreen(text, postfix=''): print("\033[92m{}\033[00m".format(text) + postfix)
 def printGrey(text, postfix=''): print("\033[95m{}\033[00m".format(text) + postfix)
 
+def listItems(items, label, zero_state):
+    max_name_length = 0
+    for f in items:
+        if len(f) > max_name_length:
+            max_name_length = len(f) + 4
+    if len(items) > 0:
+        printGreen(label)
+        out = " "
+        current_line_length = 0
+        for f in items:
+            entry = f.ljust(max_name_length)
+            if current_line_length + len(entry) > 80:
+                out += '\n '
+                current_line_length = 0
+            out += entry
+            current_line_length += len(entry)
+        print(out)
+    else:
+        printGrey(zero_state)
+        print("")
+
 path = os.getcwd()
 
 # Make a list of the files and folders.
@@ -38,42 +59,10 @@ print("")
 printGreen("Path: ", path)
 print("")
 
-# Find the maximum length names
-max_folder_name_length = 0
-for f in folders:
-    if len(f) > max_folder_name_length:
-        max_folder_name_length = len(f) + 4
-max_file_name_length = 0
-for f in files:
-    if len(f) > max_file_name_length:
-        max_file_name_length = len(f) + 4
-
 # List folders.
-if len(folders) > 0:
-    printGreen("Folders:")
-    out = " "
-    current_line_length = 0
-    for f in folders:
-        entry = f.ljust(max_folder_name_length)
-        if current_line_length + len(entry) > 80:
-            out += '\n '
-            current_line_length = 0
-        out += entry
-        current_line_length += len(entry)
-        
-    print(out)
-else:
-    printGrey("No folders.")
+listItems(folders, "Folders:", "No folders.")
+print("")
 
 # List Files
-if len(files) > 0:
-    print("")
-    printGreen("Files:")
-    out = " "
-    for f in files:
-        out += f.ljust(max_file_name_length)
-    print(out)
-else:
-    print("")
-    printGrey("No files.")
-    print("")
+listItems(files, "Files:", "No files.")
+print("")
