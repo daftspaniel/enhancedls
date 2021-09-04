@@ -6,7 +6,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-a", "--allfiles", action="store_true", help="Show hidden files and folders.")
 args = parser.parse_args()
 
-def printGreen(text, postfix=''): print("\033[92m {}\033[00m".format(text) + postfix)
+def printGreen(text, postfix=''): print("\033[92m{}\033[00m".format(text) + postfix)
+def printGrey(text, postfix=''): print("\033[95m{}\033[00m".format(text) + postfix)
 
 path = os.getcwd()
 
@@ -51,11 +52,18 @@ for f in files:
 if len(folders) > 0:
     printGreen("Folders:")
     out = " "
+    current_line_length = 0
     for f in folders:
-        out += f.ljust(max_folder_name_length)
+        entry = f.ljust(max_folder_name_length)
+        if current_line_length + len(entry) > 80:
+            out += '\n '
+            current_line_length = 0
+        out += entry
+        current_line_length += len(entry)
+        
     print(out)
 else:
-    printGreen(" No folders.")
+    printGrey("No folders.")
 
 # List Files
 if len(files) > 0:
@@ -67,5 +75,5 @@ if len(files) > 0:
     print(out)
 else:
     print("")
-    printGreen(" No files.")
-print("")
+    printGrey("No files.")
+    print("")
